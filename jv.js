@@ -4,7 +4,7 @@ const inputCantidad = document.getElementById('quantity');
 const inputPrecio = document.getElementById('price');
 const cuerpoTabla = document.getElementById('itemList').getElementsByTagName('tbody')[0];
 
-// Función para cargar los items desde Local Storage
+// Funcion para cargar los items desde Local Storage
 function cargarItems() {
     const items = JSON.parse(localStorage.getItem('items')) || [];
     cuerpoTabla.innerHTML = '';
@@ -33,7 +33,7 @@ function cargarItems() {
         totalCantidad += parseInt(item.quantity);
         totalPrecio += parseFloat(item.price);
 
-        // Agregar producto y cantidad para la gráfica
+        // Agregar producto y cantidad para la grafica
         productos.push(item.product);
         cantidades.push(parseInt(item.quantity));
     });
@@ -42,15 +42,15 @@ function cargarItems() {
     document.getElementById('totalCantidad').innerText = totalCantidad;
     document.getElementById('totalPrecio').innerText = parseFloat(totalPrecio).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
 
-    // Llamar a la función para crear la gráfica
+    // Llamar a la funcion para crear la gráfica
     crearGrafica(productos, cantidades);
 }
 
-// Función para crear la gráfica
+// Funcion para crear la grafica
 function crearGrafica(productos, cantidades) {
     const ctx = document.getElementById('graficaCantidad').getContext('2d');
     new Chart(ctx, {
-        type: 'pie', // Cambia a 'pie' para una gráfica circular
+        type: 'pie', 
         data: {
             labels: productos,
             datasets: [{
@@ -108,7 +108,7 @@ function obtenerEstadoStock(cantidad) {
     }
 }
 
-// Función para obtener la clase de stock
+// Funcion para obtener la clase de stock
 function obtenerClaseStock(cantidad) {
     if (cantidad < 100) {
         return 'bajo-stock';
@@ -119,7 +119,7 @@ function obtenerClaseStock(cantidad) {
     }
 }
 
-// Función para agregar un nuevo item
+// Funcion para agregar un nuevo item
 formulario.addEventListener('submit', (e) => {
     e.preventDefault();
     const producto = inputProducto.value;
@@ -127,7 +127,7 @@ formulario.addEventListener('submit', (e) => {
     const precio = inputPrecio.value;
 
     const items = JSON.parse(localStorage.getItem('items')) || [];
-    const nuevoId = items.length ? items[items.length - 1].id + 1 : 1; // Generar un nuevo ID
+    const nuevoId = items.length ? items[items.length - 1].id + 1 : 1;
     items.push({ id: nuevoId, product: producto, quantity: cantidad, price: precio });
     localStorage.setItem('items', JSON.stringify(items));
 
@@ -139,7 +139,7 @@ formulario.addEventListener('submit', (e) => {
     cargarItems();
 });
 
-// Función para editar un item
+// Funcion para editar un item
 function editarItem(id) {
     const items = JSON.parse(localStorage.getItem('items'));
     const indiceItem = items.findIndex(item => item.id === id);
@@ -156,7 +156,7 @@ function editarItem(id) {
     }
 }
 
-// Función para eliminar un item
+// Funcion para eliminar un item
 function eliminarItem(id) {
     const items = JSON.parse(localStorage.getItem('items'));
     const nuevosItems = items.filter(item => item.id !== id);
@@ -164,5 +164,16 @@ function eliminarItem(id) {
     cargarItems();
 }
 
-// Cargar items al iniciar
-cargarItems();
+
+document.addEventListener('DOMContentLoaded', () => {
+    cargarItems(); 
+
+    const btnEliminarTodo = document.getElementById('btnEliminarTodo');
+    btnEliminarTodo.addEventListener('click', eliminarTodo); 
+});
+
+
+function eliminarTodo() {
+    localStorage.removeItem('items');
+    cargarItems();
+}

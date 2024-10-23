@@ -86,3 +86,19 @@ button {
 button:hover {
     background-color: #0056b3; 
 }
+.btneliminartodo {
+    background-color: red; 
+    color: white; 
+    font-size: 18px; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 50%;
+}
+
+.btneliminartodo:hover {
+    background-color: darkred;
+}
