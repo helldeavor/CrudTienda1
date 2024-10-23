@@ -4,7 +4,6 @@ const inputCantidad = document.getElementById('quantity');
 const inputPrecio = document.getElementById('price');
 const cuerpoTabla = document.getElementById('itemList').getElementsByTagName('tbody')[0];
 
-// Funcion para cargar los items desde Local Storage
 function cargarItems() {
     const items = JSON.parse(localStorage.getItem('items')) || [];
     cuerpoTabla.innerHTML = '';
@@ -29,24 +28,24 @@ function cargarItems() {
         `;
         cuerpoTabla.appendChild(fila);
 
-        // Sumar cantidad y precio
+        //Sumar cantidad y precio
         totalCantidad += parseInt(item.quantity);
         totalPrecio += parseFloat(item.price);
 
-        // Agregar producto y cantidad para la grafica
+        // Agregar producto y cantidad grafica
         productos.push(item.product);
         cantidades.push(parseInt(item.quantity));
     });
 
-    // Mostrar totales en la tabla
+    //totales tabla
     document.getElementById('totalCantidad').innerText = totalCantidad;
     document.getElementById('totalPrecio').innerText = parseFloat(totalPrecio).toLocaleString('es-CO', { style: 'currency', currency: 'COP' });
 
-    // Llamar a la funcion para crear la gráfica
+    //Llamar gráfica
     crearGrafica(productos, cantidades);
 }
 
-// Funcion para crear la grafica
+//crear grafica
 function crearGrafica(productos, cantidades) {
     const ctx = document.getElementById('graficaCantidad').getContext('2d');
     new Chart(ctx, {
@@ -93,11 +92,7 @@ function crearGrafica(productos, cantidades) {
     });
 }
 
-
-
-
-
-// Función para determinar el estado del stock
+//estado stock
 function obtenerEstadoStock(cantidad) {
     if (cantidad < 100) {
         return 'Bajo Stock';
@@ -108,18 +103,18 @@ function obtenerEstadoStock(cantidad) {
     }
 }
 
-// Funcion para obtener la clase de stock
+//clase stock
 function obtenerClaseStock(cantidad) {
     if (cantidad < 100) {
-        return 'bajo-stock';
+        return 'bajostock';
     } else if (cantidad >= 100 && cantidad <= 300) {
-        return 'medio-stock';
+        return 'mediostock';
     } else {
-        return 'alto-stock';
+        return 'altostock';
     }
 }
 
-// Funcion para agregar un nuevo item
+//agregar
 formulario.addEventListener('submit', (e) => {
     e.preventDefault();
     const producto = inputProducto.value;
@@ -131,7 +126,7 @@ formulario.addEventListener('submit', (e) => {
     items.push({ id: nuevoId, product: producto, quantity: cantidad, price: precio });
     localStorage.setItem('items', JSON.stringify(items));
 
-    // Limpiar los campos del formulario
+    //Limpiar
     inputProducto.value = '';
     inputCantidad.value = '';
     inputPrecio.value = '';
@@ -139,7 +134,7 @@ formulario.addEventListener('submit', (e) => {
     cargarItems();
 });
 
-// Funcion para editar un item
+//editar
 function editarItem(id) {
     const items = JSON.parse(localStorage.getItem('items'));
     const indiceItem = items.findIndex(item => item.id === id);
@@ -156,7 +151,7 @@ function editarItem(id) {
     }
 }
 
-// Funcion para eliminar un item
+// eliminar
 function eliminarItem(id) {
     const items = JSON.parse(localStorage.getItem('items'));
     const nuevosItems = items.filter(item => item.id !== id);
